@@ -364,13 +364,25 @@
   <meta property="og:title"         content="Timer-s" />
   <meta property="og:description"   content="Your description" />
   <meta property="og:image"         content="images/timers.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> 
         <?php
             echo $counter;
         ?>
     </title>
-    <link rel = "stylesheet" type= "text/css" href= "counter.css">
+    <!-- <link rel = "stylesheet" type= "text/css" href= "counter.css"> -->
+    <link rel = "stylesheet" type= "text/css" href= "style.css">
     <link rel= "icon" href= "images/logo.jpg" type="image/x-icon">
+    <!-- <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'> -->
+    <script>
+        function autoResizeDiv(){
+            document.getElementById('fullbody').style.height = window.innerHeight +'px';
+            }
+        window.onload = autoResizeDiv;
+        window.onresize = autoResizeDiv;
+        autoResizeDiv();
+
+    </script>
 <?php 
     echo "<script> ";
     echo "function tohms(sec_num){
@@ -418,57 +430,158 @@
 ?>
     <noscript> Please enable Javascript on your browser to run your Counters </noscript>
 </head>
-<body style= "background-image: url('images/stopwatch2.jpg'); background-repeat: no-repeat; background-size: cover;">
-    <div id="fb-root"></div>
-        <script>
-                window.fbAsyncInit = function() {
-                    FB.init({
-                    appId      : '1832490427017870',
-                    xfbml      : true,
-                    version    : 'v2.8'
-                    });
-                    FB.AppEvents.logPageView();
-                };
-
-                (function(d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s); js.id = id;
-                    js.src = "//connect.facebook.net/en_GB/sdk.js";
-                    fjs.parentNode.insertBefore(js, fjs);
-                    }(document, 'script', 'facebook-jssdk'));
-                    
-        </script>
-    <div id= "fullbody" style= "height:552px;"> <div id= "top_body">
-  <!-- fa9443a074bdc3c61907071f528eae67 fb app secret -->
-    <?php
-        $today= "<div id=\"datebar\" style= \"top: 10%\"> Today's Date: ";
-        $today .= date("d-m-Y");
-        $today .= " </div>";
-        echo $today;
-        
-    ?>
-    <div id= "profile" style= "top: 10%;"> <img src=
+<body>
+    <div id= "fullbody"> <div class= "row top-body" >
+    <a href= "home.php" style= "color: floralwhite" title= "home"> <div class= "col-m-2 top-button mobile-only">
+        <h3 class= "header"> <img class= "top-icon" src= "images/home3.png" alt= "H" />  </h3> </div> </a>
+    <a href= "home.php" style= "color: floralwhite" title= "home"> <div class= "col-8 col-t-4 no-mobile"> <h3 class= "main-header no-mobile"> TIMER-S </h3>
+        </div> </a>
+    <a href= "view.php?type=all" style= "color: floralwhite" title= "counters"> <div class= "col-1 col-m-2 col-t-4 top-button"> <h3 class= "header no-mobile"> Counters </h3>
+        <h3 class= "header mobile-only"> <img class= "top-icon" src= "images/counters.png" alt= "C" />  </h3> </div> </a>
+    <a href= "#" style= "color: floralwhite" title= "New Counter"> <div class= "col-1 col-m-2 col-t-4 top-button"> <h3 class= "header no-mobile"> <img class= "top-icon" src= "images/plus white.png" alt= "" />  New Counter </h3>
+        <h3 class= "header mobile-only"> <img class= "top-icon" src= "images/plus white.png" alt= "+" />  </h3> </div> </a>
+    <div class= "col-1 col-m-2 col-t-1"> <img src=
     <?php
         echo " \"{$user['profile_pic']}\" ";
     ?>
-     alt= "Profile Pic" id= "profile_pic" onclick= "show_options()" />
-        <div id= "options" hidden= "true"> <a href= "settings.php" target= "_blank"> Settings </a> <hr style= "width: 120%; position: relative; left: -10%; color: rgb(12,12,82); background-color: rgb(12,12,82)" /> <a href= "logout.php"> Log Out </a> </div> </div>
-    <div id= "headerbar" style= "height: 50%"> <h1 id= "header"> <a href= "home.php" style= "color: floralwhite"> TIMER-S </a>  </h1> </div>
+     alt= "Profile Pic" class= "profile" title= "Settings" /> </div>
+    <?php
+        $today= "<div class=\"datebar col-1 col-m-4 col-t-3\" title= \"Today\" >";
+        $today .= date("d-m-Y");
+        $today .= " </div>";
+        echo $today;
+    ?> 
+    </div> <!--end of row 1-->
+    <div class= "row top-space"> <div class= "col-12 col-m-12 col-t-12"> </div> </div> <!--compensation space for the header-->
     <?php
         if(isset($_SESSION["msg"]) && !empty($_SESSION["msg"])){
+            echo "<div class= \"row msg-row\"> <div class = \"col-12 col-m-12 col-t-12\"> ";
             echo $_SESSION['msg'];
+            echo "</div> </div> <!--end of msg row-->";
         }
-        echo "<div class= \"counter_header\"> <img src= \"images/alarmclock.jpg\" alt= \"counter\" id= \"counter_img\"  /> &nbsp; &nbsp;" . strtoupper($counter);
+    ?>
+    <div class= "row counter-header">
+        <div class= "col-2 col-t-2 no-mobile"> <img src= "images/alarmclock.jpg" alt= "" class= "counter-img"  /> </div> 
+        <?php
+            echo "<div class= \"col-10 col-m-10 col-t-9 counter-title\"> " . strtoupper($counter) . "</div> ";
+        ?>
+        <div class= "col-m-2 mobile-only arrow-box "> <div class= "counter-arrow" onclick="show_stats()" title= "Statistics"> <img class= "arrow" id= "down" src= "images/caret down.png" alt= "V" /> <img class= "arrow" id= "up" src= "images/caret up.png" alt= "V" /> </div> </div>
+    </div> <!--end of counter header row-->
+    <div class= "row "> 
+        <div class= "counter-stats" id= "stats">
+        <div class = ""> <div id= "s_huge_cum"> </div> </div>
+    <?php
         if(isset($_GET['count'])){
-            echo "<div id = \"huge_cum_block\"> <div id= \"s_huge_cum\"> </div>
-                <div id= \"share_buttons\">";
-            echo "<div id= \"email_share\" > <a href= \"sendmail.php?cum={$counter_details['current_count']}&counter={$counter}\" target= \"_blank\"> <img class= \"email_share_button\" src= \"images/red-email-icon.png\" alt= \"Share\" title= \"Share by email\"> </a> </div> </div>
-                <div id= \"l_huge_cum\">";
-                echo " Current Total";
-            echo "</div> </div>";
+            echo "";
+            // <div id= \"share_buttons\">";
+            // echo "<div id= \"email_share\" > <a href= \"sendmail.php?cum={$counter_details['current_count']}&counter={$counter}\" target= \"_blank\"> <img class= \"email_share_button\" src= \"images/red-email-icon.png\" alt= \"Share\" title= \"Share by email\"> </a> </div> </div>
+            echo "<div class = \" l_huge_cum\">" ;
+            echo " Current Total";
+            echo "</div>";
             }
-        echo "</div>";
+            if(mysqli_num_rows($get_table)==0 && !isset($_GET["count"])){
+                //No counter was selected, seems user has NO counters yet
+                echo " <div class =\"specific_table no_table\"> You haven't created any counters yet! </br>
+                        Fill the new counter form below to begin! </div>";
+                new_counter();
+            } elseif(mysqli_num_rows($get_table)==0 && isset($_GET["count"]) && ($running == 0)){
+                //Specific counter selected, But hasn't been stated yet
+                echo "<div class =\"specific_table no_table\"> You haven't utilized <b> " . $counter . "</b> yet. </br>
+                    Click on the 'Start' button to begin! </div>";
+            } elseif(mysqli_num_rows($get_table)!=0 && !isset($_GET["count"])){
+                //No counter selected, display all
+                echo "</div> </div> <div class =\"specific_table\">";
+                display_counters($get_counters);
+                echo "</div>";
+
+            } elseif(mysqli_num_rows($get_table)!=0 && isset($_GET["count"])) {
+                //specific counter selected, has runs to display
+                echo "<div class= \"table-header\"> <div class= \"run-no table-header-cell\"> Run No </div> <div class= \"time-started table-header-cell\"> Time Started </div> <div class= \"time-stopped table-header-cell\"> Time Stopped </div> <div class= \"time-spent table-header-cell\"> Time Spent </div> <div class= \"cum table-header-cell\">  Cumulative </div> </div>";
+                echo "<div class =\"specific_table\">"; 
+                echo "<table class=\"display-table\" style= \"position: relative;\">";
+                   /* <tr class= \"header\"> <th> Run No. </th> <th> Time started </th> <th> Time stopped </th>
+                    <th> Time spent </th> <th> Cumulative </th> </tr>";*/
+                $sn = 0;
+                while($show_table = mysqli_fetch_array($get_table)){
+                    $sn = $sn + 1;
+                    $time_start = date("d-m-Y h:i:s", $show_table["time_started"]);
+                    if(($show_table["time_stopped"]) != 0){ //run has been stopped by user
+                        $time_stop = date("d-m-Y h:i:s", $show_table["time_stopped"]);
+                    } else { //run is still ungoing
+                        $time_stop = NULL;
+                        /* This is to prevent php from echoing the epoch date as 
+                        the time-stopped of an unended run
+                        */
+                    }
+                    $time_spent = $show_table["time_spent"];
+                    $time_spent_sec = fmod($time_spent, 60);
+                    $time_spent = floor($time_spent/60);
+                    $time_spent_min = fmod($time_spent, 60);
+                    $time_spent_hr = floor($time_spent/60);
+                    $cumulus = $show_table["cumulative"];
+                    $cumulus_sec = fmod($cumulus, 60);
+                    $cumulus = floor($cumulus/60);
+                    $cumulus_min = fmod($cumulus, 60);
+                    $cumulus_hr = floor($cumulus/60);
+
+                    $row = "<tr> <td class=\"display_cells run-no\"> " . $sn . " </td> ";
+                    $row .= " <td class=\"display_cells time-started\"> " . $time_start . " </td>" ;
+                    $row .= " <td class=\"display_cells time-stopped\"> " . $time_stop . " </td> <td class=\"display_cells time-spent\">" ;
+                    if(isset($time_spent_hr) && !empty($time_spent_hr)){
+                        $row .= $time_spent_hr . " hrs ";
+                    }
+                    if(isset($time_spent_min) && !empty($time_spent_min)){
+                        $row .= $time_spent_min . " mins ";
+                    }
+                    if(isset($time_spent_sec) && !empty($time_spent_sec)){
+                        $row .= $time_spent_sec . " secs ";
+                    }
+                    $row .= " </td> <td class=\"display_cells cum\"> ";
+                    if(isset($cumulus_hr) && !empty($cumulus_hr)){
+                        $row .= $cumulus_hr . " hrs ";
+                    }
+                    if(isset($cumulus_min) && !empty($cumulus_min)){
+                        $row .= $cumulus_min . " mins ";
+                    }
+                    if(isset($cumulus_sec) && !empty($cumulus_sec)){
+                        $row .= $cumulus_sec . " secs ";
+                    }
+                    $row .= " </td> </tr> ";
+                    echo $row;
+                }
+                echo " </table> <div id= \"end\"> </div> </div>";
+            }
+
+        echo "</div>"; //end of Counter statistics block
+        ?>
+    <script>         
+            function show_stats() {
+                var x = document.getElementById('stats');
+                var y = document.getElementById('up');
+                var z = document.getElementById('down');
+                var a = document.getElementById('top-line');
+                if(x.style.display == 'block'){
+                    x.style.display = 'none';
+                    y.style.display = 'none';
+                    z.style.display = 'block';
+                    a.style.display= 'block';
+                } else {
+                    x.style.display = 'block';
+                    y.style.display = 'block';
+                    z.style.display = 'none';
+                    a.style.display= 'none';
+                }  
+            }
+            function show_settings() {
+                var x = document.getElementById('settings');
+                if(x.style.display == 'block'){
+                    x.style.display = 'none';
+                } else {
+                    x.style.display = 'block';
+                }  
+            }
+    </script>
+    <?php
         if(isset($_GET['count'])){
             echo "<script> var cumulative = " . $counter_details['current_count'] . ";
             var hours   = Math.floor(cumulative / 3600);
@@ -481,40 +594,49 @@
             var Time= hours+':'+minutes+':'+seconds;
             var x = document.getElementById(\"s_huge_cum\");
             x.innerHTML = Time;
+
+            
             </script>";
         }
-        echo " <hr  style =\"position:relative; width:110%; left: -5%;\"/> </div> <div id= \"timer_block\"> <div id= \"s_timer_block\"> ";
+         echo " <hr id= \"top-line\" style =\"position:relative; width:100%; left: 0;\"/>   ";
+    ?>
+    <div class= "row">
+        <div class= "col-m-12 col-7 col-t-6" id= "timer"> 00:00:00 </div> </div>
+    </div>
+    <?php
+        echo "<div class= \"row\">";
         if(isset($_GET["count"])){
             if($counter_details['status'] == 2){
                 //counter is inactive, disable both Start and Stop buttons
-                $timerbuttons = "<button  class=\"timerbuttons\" style= \"background-color: rgb(100,120,100); color: rgb(50,50,50);\"> ";
-                $timerbuttons .= " START </button> <br /> ";
-                $timerbuttons .= " <button class=\"timerbuttons\" style= \"background-color: rgb(120,100,100); color: rgb(50,50,50);\" > ";
-                $timerbuttons .= " STOP </button> <br /> ";
+                $timerbuttons = "<div class= \"col-m-12 col-4 col-t-3\"> <button  class=\"timerbuttons\" style= \"background-color: rgb(100,120,100); color: rgb(50,50,50);\"> ";
+                $timerbuttons .= " START </button> </div> <br /> ";
+                $timerbuttons .= "<div class= \"col-m-12 col-4 col-t-3\"> <button class=\"timerbuttons\" style= \"background-color: rgb(120,100,100); color: rgb(50,50,50);\" > ";
+                $timerbuttons .= " STOP </button> </div> <br /> ";
             } else {
                 if(isset($running) && ($running==1)){
                     //disable Start button, enable Stop button
-                    $timerbuttons = "<button  class=\"timerbuttons\" style= \"background-color: rgb(100,120,100); color: rgb(50,50,50);\"> ";
-                    $timerbuttons .= " START </button> <br /> ";
-                    $timerbuttons .= " <a href= \"view.php?count=" . $counter . "&&end=now&&countno=";
-                    $timerbuttons .=   $id . "\"> <button class=\"timerbuttons stop\" stop> STOP </button> </a> <br /> ";
+                    $timerbuttons = "<div class= \"col-m-12 col-4 col-t-3\"> <button  class=\"timerbuttons\" style= \"background-color: rgb(100,120,100); color: rgb(50,50,50);\"> ";
+                    $timerbuttons .= " START </button> </div> <br /> ";
+                    $timerbuttons .= "<div class= \"col-m-12 col-4 col-t-3\"> <a href= \"view.php?count=" . $counter . "&&end=now&&countno=";
+                    $timerbuttons .=   $id . "\"> <button class=\"timerbuttons stop\" stop> STOP </button> </a> </div> <br /> ";
                 } else {
                     //enable Start button, disable Stop button
-                    $timerbuttons = "<a href= \"view.php?count=" . $counter . "&&countno=";
-                    $timerbuttons .= $id . "&&startcount=yes\"> <button  class=\"timerbuttons start\"> START </button> </a> <br /> ";
-                    $timerbuttons .= " <button class=\"timerbuttons\" style= \"background-color: rgb(120,100,100); color: rgb(50,50,50);\" > ";
-                    $timerbuttons .= " STOP </button> <br /> ";
+                    $timerbuttons = "<div class= \"col-m-12 col-4 col-t-3\"> <a href= \"view.php?count=" . $counter . "&&countno=";
+                    $timerbuttons .= $id . "&&startcount=yes\"> <button  class=\"timerbuttons start\"> START </button> </a> </div> <br /> ";
+                    $timerbuttons .= "<div class= \"col-m-12 col-4 col-t-3\"> <button class=\"timerbuttons\" style= \"background-color: rgb(120,100,100); color: rgb(50,50,50);\" > ";
+                    $timerbuttons .= " STOP </button> </div> <br /> ";
                 }
             }
-        $timer = " <div id= \"timer\"> 00:00:00 </div> </div>";
-
-        if(isset($_GET["count"])) {
+        $timer = " ";
+    ?>
+    <div class= "row"> 
+    <?php
             //display counter settings
-        $timer .= "<div id= \"l_timer_block\">";
+        $timer .= "<div class= \"timer-settings-block\" id= \"settings\">";
         $short_timer = trunc($counter,1);
         if(mysqli_num_rows($get_table) !=0){
             //$short_timer = substr($counter,0,12);
-            $timer .= "<div style=\"position: relative; width: 100%; text-align: center; font-family: 'times new roman'; font-stretch: condensed; padding-bottom: 5px; \"> COUNTER SETTINGS </div>";
+            $timer .= "<div style=\"position: relative; width: 100%; text-align: center; font-family: 'times new roman'; font-stretch: condensed; font-weight: 600; padding-bottom: 0.7em; \"> COUNTER SETTINGS </div>";
             if($running != 1){
                 $timer .= "<a href= \"view.php?count={$counter}&countno={$id}&setting=1 \" > <button class= \"counter_settings active\"> Delete <strong> {$short_timer}'s </strong> last entry </button> </a> <br />";
                 } else {
@@ -537,7 +659,6 @@
                         <span> <button class= \"counter_settings inactive\" disabled> Delete <strong> {$short_timer} </strong> </button> </span>";
                 }
          $timer .= " </div> </div>";
-            }
         echo $timerbuttons;
         echo $timer;
         } else { //no specific counter, so display other options instead of timer buttons
@@ -549,87 +670,9 @@
 
         }
     ?>
-<?php
-    if(mysqli_num_rows($get_table)==0 && !isset($_GET["count"])){
-        //No counter was selected, seems user has NO counters yet
-        echo " <div class =\"specific_table no_table\"> You haven't created any counters yet! </br>
-                Fill the new counter form below to begin! </div>";
-        new_counter();
-    } elseif(mysqli_num_rows($get_table)==0 && isset($_GET["count"]) && ($running == 0)){
-        //Specific counter selected, But hasn't been stated yet
-        echo "<div class =\"specific_table no_table\"> You haven't utilized <b> " . $counter . "</b> yet. </br>
-            Click on the 'Start' button to begin! </div>";
-    } elseif(mysqli_num_rows($get_table)!=0 && !isset($_GET["count"])){
-        //No counter selected, display all
-        echo "</div> </div> <div class =\"specific_table\">";
-        display_counters($get_counters);
-        echo "</div>";
-
-    } elseif(mysqli_num_rows($get_table)!=0 && isset($_GET["count"])) {
-        //specific counter selected, has runs to display
-        echo " ";
-        echo "<div class =\"specific_table\">"; /* <div class= \"table_header\"> <span class= \"run_no_head table_header_cell\"> Run No </span> <span class= \"time_started_head table_header_cell\"> Time Started </span> <span class= \"time_stopped_head table_header_cell\"> Time Stopped </span> <span class= \"time_spent_head table_header_cell\"> Time Spent </span> <span class= \"cum_head table_header_cell\">  Cumulative </span> </div> */
-        echo "<table class=\"display_table\" style= \"position: relative;\">
-            <tr class= \"header\"> <th> Run No. </th> <th> Time started </th> <th> Time stopped </th>
-            <th> Time spent </th> <th> Cumulative </th> </tr>";
-        $sn = 0;
-        while($show_table = mysqli_fetch_array($get_table)){
-            $sn = $sn + 1;
-            $time_start = date("d-m-Y h:i:s", $show_table["time_started"]);
-            if(($show_table["time_stopped"]) != 0){ //run has been stopped by user
-                $time_stop = date("d-m-Y h:i:s", $show_table["time_stopped"]);
-            } else { //run is still ungoing
-                $time_stop = NULL;
-                /* This is to prevent php from echoing the epoch date as 
-                the time-stopped of an unended run
-                */
-            }
-            $time_spent = $show_table["time_spent"];
-            $time_spent_sec = fmod($time_spent, 60);
-            $time_spent = floor($time_spent/60);
-            $time_spent_min = fmod($time_spent, 60);
-            $time_spent_hr = floor($time_spent/60);
-            $cumulus = $show_table["cumulative"];
-            $cumulus_sec = fmod($cumulus, 60);
-            $cumulus = floor($cumulus/60);
-            $cumulus_min = fmod($cumulus, 60);
-            $cumulus_hr = floor($cumulus/60);
-
-            $row = "<tr> <td class=\"display_cells\"> " . $sn . " </td> ";
-            $row .= " <td class=\"display_cells\"> " . $time_start . " </td>" ;
-            $row .= " <td class=\"display_cells\"> " . $time_stop . " </td> <td class=\"display_cells\">" ;
-            if(isset($time_spent_hr) && !empty($time_spent_hr)){
-                $row .= $time_spent_hr . " hrs ";
-            }
-            if(isset($time_spent_min) && !empty($time_spent_min)){
-                $row .= $time_spent_min . " mins ";
-            }
-            if(isset($time_spent_sec) && !empty($time_spent_sec)){
-                $row .= $time_spent_sec . " secs ";
-            }
-            $row .= " </td> <td class=\"display_cells\"> ";
-            if(isset($cumulus_hr) && !empty($cumulus_hr)){
-                $row .= $cumulus_hr . " hrs ";
-            }
-            if(isset($cumulus_min) && !empty($cumulus_min)){
-                $row .= $cumulus_min . " mins ";
-            }
-            if(isset($cumulus_sec) && !empty($cumulus_sec)){
-                $row .= $cumulus_sec . " secs ";
-            }
-            $row .= " </td> </tr> ";
-            echo $row;
-        }
-        echo " </table> <div id= \"end\"> </div> </div>";
-    }
-?>
-    <div
-    class="fb-like"
-    data-share="true"
-    data-width="450"
-    data-show-faces="true">
-    </div>
-</div> <hr style= "width: 104%; position: relative; left: -2%; top:10px; color: rgb(12,12,82); background-color: rgb(12,12,82)" />
+</div>
+<div class= "row mobile-only"> <div class= "settings-button-box"> <img class= "settings-button" src= "images/menu3.png" alt= "Settings" onclick= "show_settings()"/> </div> </div>
+<hr class= "no-mobile" style= "width: 100%; position: relative;  color: rgb(12,12,82); background-color: rgb(12,12,82)" />
 <?php
     $_SESSION['msg'] = array(); //clean out one time msgs if they exist
     include("footer.php");
